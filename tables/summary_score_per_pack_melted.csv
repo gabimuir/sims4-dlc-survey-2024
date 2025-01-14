@@ -1,0 +1,85 @@
+,pack_code,pack_type,release date,pack name,score_type,avg score
+0,EP01,Expansion Packs,2015-03-31,Get To Work,gameplay,6.7403
+1,EP02,Expansion Packs,2015-12-08,Get Together,gameplay,6.454
+2,EP03,Expansion Packs,2016-11-01,City Living,gameplay,7.434
+3,EP04,Expansion Packs,2017-11-10,Cats & Dogs,gameplay,7.2864
+4,EP05,Expansion Packs,2018-06-22,Seasons,gameplay,8.3771
+5,EP06,Expansion Packs,2018-11-16,Get Famous,gameplay,6.0866
+6,EP07,Expansion Packs,2019-06-21,Island Living,gameplay,5.8494
+7,EP08,Expansion Packs,2019-11-15,Discover University,gameplay,7.0505
+8,EP09,Expansion Packs,2020-06-05,Eco Lifestyle,gameplay,6.4162
+9,EP10,Expansion Packs,2020-11-13,Snowy Escape,gameplay,6.2187
+10,EP11,Expansion Packs,2021-07-22,Cottage Living,gameplay,8.6489
+11,EP12,Expansion Packs,2022-07-28,High School Years,gameplay,5.9571
+12,EP13,Expansion Packs,2023-03-16,Growing Together,gameplay,7.8401
+13,EP14,Expansion Packs,2023-07-20,Horse Ranch,gameplay,7.1332
+14,EP15,Expansion Packs,2023-12-07,For Rent,gameplay,6.842
+15,EP16,Expansion Packs,2024-07-25,Lovestruck,gameplay,6.5528
+16,GP01,Game Packs,2015-01-13,Outdoor Retreat,gameplay,5.2979
+17,GP02,Game Packs,2015-07-06,Spa Day,gameplay,5.9859
+18,GP03,Game Packs,2016-06-07,Dine Out,gameplay,6.2761
+19,GP04,Game Packs,2017-01-24,Vampires,gameplay,7.0345
+20,GP05,Game Packs,2017-05-30,Parenthood,gameplay,7.6079
+21,GP06,Game Packs,2018-02-27,Jungle Adventure,gameplay,6.4523
+22,GP07,Game Packs,2019-02-26,StrangerVille,gameplay,6.0845
+23,GP08,Game Packs,2019-09-10,Realm of Magic,gameplay,7.1037
+24,GP09,Game Packs,2020-09-08,Star Wars: Journey to Batuu,gameplay,3.7495
+25,GP10,Game Packs,2021-06-01,Dream Home Decorator,gameplay,6.8215
+26,GP11,Game Packs,2022-02-23,My Wedding Stories,gameplay,5.7732
+27,GP12,Game Packs,2022-06-16,Werewolves,gameplay,7.1058
+81,EP01,Expansion Packs,2015-03-31,Get To Work,buildmode,4.8318
+82,EP02,Expansion Packs,2015-12-08,Get Together,buildmode,6.8248
+83,EP03,Expansion Packs,2016-11-01,City Living,buildmode,7.0164
+84,EP04,Expansion Packs,2017-11-10,Cats & Dogs,buildmode,7.2529
+85,EP05,Expansion Packs,2018-06-22,Seasons,buildmode,7.6648
+86,EP06,Expansion Packs,2018-11-16,Get Famous,buildmode,5.7169
+87,EP07,Expansion Packs,2019-06-21,Island Living,buildmode,6.9305
+88,EP08,Expansion Packs,2019-11-15,Discover University,buildmode,6.7373
+89,EP09,Expansion Packs,2020-06-05,Eco Lifestyle,buildmode,8.0047
+90,EP10,Expansion Packs,2020-11-13,Snowy Escape,buildmode,7.8376
+91,EP11,Expansion Packs,2021-07-22,Cottage Living,buildmode,8.8246
+92,EP12,Expansion Packs,2022-07-28,High School Years,buildmode,7.8987
+93,EP13,Expansion Packs,2023-03-16,Growing Together,buildmode,8.1644
+94,EP14,Expansion Packs,2023-07-20,Horse Ranch,buildmode,7.9883
+95,EP15,Expansion Packs,2023-12-07,For Rent,buildmode,7.5348
+96,EP16,Expansion Packs,2024-07-25,Lovestruck,buildmode,7.4197
+97,GP01,Game Packs,2015-01-13,Outdoor Retreat,buildmode,5.0163
+98,GP02,Game Packs,2015-07-06,Spa Day,buildmode,6.1666
+99,GP03,Game Packs,2016-06-07,Dine Out,buildmode,5.547
+100,GP04,Game Packs,2017-01-24,Vampires,buildmode,7.049
+101,GP05,Game Packs,2017-05-30,Parenthood,buildmode,7.1552
+102,GP06,Game Packs,2018-02-27,Jungle Adventure,buildmode,6.6735
+103,GP07,Game Packs,2019-02-26,StrangerVille,buildmode,6.6882
+104,GP08,Game Packs,2019-09-10,Realm of Magic,buildmode,6.5667
+105,GP09,Game Packs,2020-09-08,Star Wars: Journey to Batuu,buildmode,5.0903
+106,GP10,Game Packs,2021-06-01,Dream Home Decorator,buildmode,8.9677
+107,GP11,Game Packs,2022-02-23,My Wedding Stories,buildmode,6.9436
+108,GP12,Game Packs,2022-06-16,Werewolves,buildmode,7.5534
+162,EP01,Expansion Packs,2015-03-31,Get To Work,cas,4.1164
+163,EP02,Expansion Packs,2015-12-08,Get Together,cas,5.5796
+164,EP03,Expansion Packs,2016-11-01,City Living,cas,6.0849
+165,EP04,Expansion Packs,2017-11-10,Cats & Dogs,cas,6.0738
+166,EP05,Expansion Packs,2018-06-22,Seasons,cas,6.9536
+167,EP06,Expansion Packs,2018-11-16,Get Famous,cas,5.7903
+168,EP07,Expansion Packs,2019-06-21,Island Living,cas,6.4972
+169,EP08,Expansion Packs,2019-11-15,Discover University,cas,7.5216
+170,EP09,Expansion Packs,2020-06-05,Eco Lifestyle,cas,6.559
+171,EP10,Expansion Packs,2020-11-13,Snowy Escape,cas,7.2541
+172,EP11,Expansion Packs,2021-07-22,Cottage Living,cas,8.4265
+173,EP12,Expansion Packs,2022-07-28,High School Years,cas,7.9567
+174,EP13,Expansion Packs,2023-03-16,Growing Together,cas,7.7711
+175,EP14,Expansion Packs,2023-07-20,Horse Ranch,cas,7.2665
+176,EP15,Expansion Packs,2023-12-07,For Rent,cas,6.7663
+177,EP16,Expansion Packs,2024-07-25,Lovestruck,cas,7.6685
+178,GP01,Game Packs,2015-01-13,Outdoor Retreat,cas,4.2971
+179,GP02,Game Packs,2015-07-06,Spa Day,cas,5.3087
+180,GP03,Game Packs,2016-06-07,Dine Out,cas,4.4414
+181,GP04,Game Packs,2017-01-24,Vampires,cas,6.2061
+182,GP05,Game Packs,2017-05-30,Parenthood,cas,6.3232
+183,GP06,Game Packs,2018-02-27,Jungle Adventure,cas,5.6103
+184,GP07,Game Packs,2019-02-26,StrangerVille,cas,5.7439
+185,GP08,Game Packs,2019-09-10,Realm of Magic,cas,6.4886
+186,GP09,Game Packs,2020-09-08,Star Wars: Journey to Batuu,cas,3.883
+187,GP10,Game Packs,2021-06-01,Dream Home Decorator,cas,7.4467
+188,GP11,Game Packs,2022-02-23,My Wedding Stories,cas,7.4687
+189,GP12,Game Packs,2022-06-16,Werewolves,cas,7.3194
