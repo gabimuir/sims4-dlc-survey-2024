@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st 
+import numpy as np
 
 # this code is meant to keep all of the data logic. The pages should hold mostly formatting and UI
 
@@ -9,8 +10,23 @@ def open_promo_data():
 
 @st.cache_data
 def get_pack_info():
-    pack_info = pd.read_csv('../tables/basic_pack_info.csv')
+    '''
+    Read the pack info (pack name, pack type) and add the additional info of the kit type (CAS/creator/etc)
+    '''
+    df = pd.read_csv('../tables/basic_pack_info.csv')
+    kit_types = pd.read_csv('../kit_types.csv')
+    pack_info = pd.merge(left = df,
+         right = kit_types,
+         right_on = 'kit_name',
+         left_on = 'pack name',
+         how = 'left'
+        ).drop('kit_name', axis = 1).sort_values('release date', ascending = False)
     return pack_info
+
+@st.cache_data
+def get_play_style_df():
+    return pd.read_csv('../tables/play_styles_raw.csv').set_index('survey_id')
+
 
 @st.cache_data
 def count_num_packs(pack_type):
@@ -89,3 +105,33 @@ def melt_for_plotly(to_plot, pack_type):
                        )
     df['color'] = df['pack promotion'].apply( color_val )
     return df
+
+@st.cache_data
+def prep_venn_playstyle(pack_list, max_packs):
+    '''
+    Filter the play style to specific survey respondents based on filters. If 
+    '''
+    if len(pack_list) < 1:
+        return pd.DataFrame(columns = ['player_cas', 'player_live', 'player_build'])
+    
+    # from promo_data we see each survey_id and which packs they own
+    df = open_promo_data() 
+    # first filter to respondents with less than the max num packs
+    num_packs = df.groupby(['survey_id', 'pack_type'])['pack name'].count().reset_index()
+
+    # isolate which survey respondents had that many responses
+    lt_x_packs = num_packs[ (num_packs['pack name'] <= max_packs) ] ['survey_id'].to_list()
+
+    # filter by pack owner and total pack ownership
+    owner_list = df[(df['pack name'].isin(pack_list)) & (df['survey_id'].isin(lt_x_packs))
+                     ]['survey_id'].drop_duplicates().to_list()
+    play_style_df = get_play_style_df().loc[owner_list]
+
+    # replace true/false with the index to become a unique value for the venn diagram set
+    for_set = play_style_df.T.apply(
+        lambda x: np.where(x, str(x.name), np.nan)
+        ).T.reset_index().set_index('survey_id')
+    
+    return for_set
+
+    

@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import seaborn as sns
 from get_data import count_num_packs
+from matplotlib_venn import venn3
 
 def get_colors():
     '''
@@ -89,4 +90,16 @@ def plot_percent_promo_plotly(to_plot, pack_type, max_owned, sorted_by, num_peop
         height = 600
     )
     
+    return fig
+
+def plot_venn_gamertype(for_set, title = ''):
+    fig, ax = plt.subplots(figsize = (10,10), dpi = 200)
+    venn3([set(for_set['player_cas'].to_list()),
+        set(for_set['player_build'].to_list()),
+        set(for_set['player_live'].to_list())
+        ], 
+        ('CAS', 'Build', 'Live'),
+        )
+    if title:
+        plt.title(title)
     return fig
