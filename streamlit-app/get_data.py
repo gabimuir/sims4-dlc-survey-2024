@@ -27,6 +27,31 @@ def get_pack_info():
 def get_play_style_df():
     return pd.read_csv('../tables/play_styles_raw.csv').set_index('survey_id')
 
+@st.cache_data
+def get_cluster_dfs():
+    '''
+    Open the clustering results for each pack type
+    '''
+    cluster_data = {
+        'Kits': pd.read_csv('../tables/kit_pca_clusters.csv'),
+        'Expansion Packs': pd.read_csv('../tables/clusters_expansions_3c.csv'),
+        'Game Packs': pd.read_csv('../tables/cluster_game_packs.csv'),
+        'Stuff Packs': pd.read_csv('../tables/cluster_stuff_packs.csv')
+    }
+    # set all the clusters as categorical variables
+    for pt, df in cluster_data.items():
+        df['cluster'] = df['cluster'].astype("category")
+
+        # add a totals column for how many owners have each pack
+        totals, total_respondents = prep_pack_ownership_promo( open_promo_data(), pack_type = pt, max_owned=81)
+        with_totals = pd.merge(
+            left = df,
+            right = totals[['total']].rename(columns = {'total': 'total owners'}),
+            right_index = True, # index is pack name
+            left_on = 'pack name'
+        )
+        cluster_data[pt] = with_totals
+    return cluster_data
 
 @st.cache_data
 def count_num_packs(pack_type):

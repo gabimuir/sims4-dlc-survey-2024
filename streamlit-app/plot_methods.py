@@ -93,6 +93,9 @@ def plot_percent_promo_plotly(to_plot, pack_type, max_owned, sorted_by, num_peop
     return fig
 
 def plot_venn_gamertype(for_set, title = ''):
+    '''
+    Plot a venn diagram showing the counts of each play style (with overlap)
+    '''
     fig, ax = plt.subplots(figsize = (10,10), dpi = 200)
     venn3([set(for_set['player_cas'].to_list()),
         set(for_set['player_build'].to_list()),
@@ -102,4 +105,63 @@ def plot_venn_gamertype(for_set, title = ''):
         )
     if title:
         plt.title(title)
+    return fig
+
+def plot_cluster_plots(data, pack_type):
+    '''
+    Plot a scatterplot of the PCA results of each pack. Use the cluster for the color
+    '''
+    # prepare the hover which is diff for kits vs other pack types
+    if pack_type == 'Kits':
+        # Kits also need to have the kit_type info hovering
+        custom_data = [data['release date'], data['pack name'], data['cluster'], data['kit_type'], data['total owners']]
+    else:
+        custom_data = [data['release date'], data['pack name'], data['cluster'], data['total owners']]
+
+    # plot the PCA as a scatter plot, with color as cluster
+    fig = px.scatter(
+        data, 
+        x='PC1', 
+        y='PC2', 
+        color='cluster', 
+        title=f'{pack_type} clustered based on ownership',
+        custom_data = custom_data,
+        color_discrete_sequence = px.colors.qualitative.Vivid
+    )
+    fig.update_traces(marker = dict(size = 12))
+
+    # Add hover of all traits. For kits include kit_type
+    if pack_type == 'Kits':
+        fig.update_traces(
+            hovertemplate = "<b>Pack Name:</b> %{customdata[1]}<br>"
+                    + "<b>Release Date:</b> %{customdata[0]}<br>"
+                    + "<b>Cluster:</b> %{customdata[2]}<br>"
+                    + "<b>Total Owners:</b> %{customdata[4]}<br>"
+                    + "<b>Kit Type:</b> %{customdata[3]}<br>"
+                    + "<extra></extra>",  # Hide extra info,
+        )
+    else:
+        fig.update_traces(
+            hovertemplate = "<b>Pack Name:</b> %{customdata[1]}<br>"
+                    + "<b>Release Date:</b> %{customdata[0]}<br>"
+                    + "<b>Cluster:</b> %{customdata[2]}<br>"
+                    + "<b>Total Owners:</b> %{customdata[3]}<br>"
+                    + "<extra></extra>",  # Hide extra info,
+        )
+
+    # add lines to the edges of the plot
+    fig.update_yaxes(linewidth=1, linecolor='white', mirror=True, ticks='inside', showline=True)
+    fig.update_xaxes(linewidth=1, linecolor='white', mirror=True, ticks='inside', showline=True)
+    
+    fig.update_layout(
+        # remove ticks and axis lables
+        xaxis = dict(ticks='', tickvals=[], zeroline=False), 
+        yaxis = dict(ticks='', tickvals=[], zeroline=False),
+        xaxis_title = '', yaxis_title = '',
+        # Place the legend on the right
+        showlegend=True,  
+        legend=dict(title='Cluster', x=1.05, y=1),  
+        # Set figure size
+        width=600, height=600  
+    )
     return fig

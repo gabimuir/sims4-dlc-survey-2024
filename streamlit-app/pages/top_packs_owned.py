@@ -16,7 +16,7 @@ def sidebar(df):
 
     pack_list = sorted(list(set(df['pack_type'].to_list())))
     pack_type: str = st.sidebar.selectbox(
-        "Color theme",
+        "Pack Type",
         options = pack_list,
         key = "pack_type",
     )
