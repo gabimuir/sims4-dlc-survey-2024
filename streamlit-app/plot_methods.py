@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
+import plotly.express as px
 import seaborn as sns
-import numpy as np
 from get_data import count_num_packs
 
 def get_colors():
@@ -28,10 +28,15 @@ def get_colors():
         'bugs': (119, 48, 166) # bugs purple
     }
 
+    # this is how seaborn/matplotlib likes it
     color_map = {}
     for name, (r,g,b) in color_map_raw.items():
         new_rgb = ( r / 255.0, g / 255.0, b / 255.0, 1 )
         color_map[name] = new_rgb
+
+    # this is how plotly uses it
+    for name, (r,g,b) in color_map_raw.items():
+        color_map[name] = f'rgb({r}, {g}, {b})'
         
 
     plt.rcParams.update({
@@ -47,31 +52,41 @@ def get_colors():
     return color_map
 
 
-def plot_percent_promo(to_plot, pack_type, max_owned, sorted_by, num_people='?'):
+def plot_percent_promo_plotly(to_plot, pack_type, max_owned, sorted_by, num_people='?'):
     '''
-    Plot a histplot type figure for the top packs owned by a certain number, and whether they got them on promo
+    Plot a histplot type figure for the top packs owned by a certain number,
+    and whether they got them on promo using Plotly.
     '''
     color_map = get_colors()
-    fig, ax = plt.subplots(figsize = (12,8), dpi = 200)
-
-    to_plot.plot.bar(
-        stacked = True,
-        color = {'not promo': color_map[pack_type],
-                 'promo': color_map[f'{pack_type}_dark']},
-        ax = ax,
-        width = 1,
-        edgecolor = color_map['gray']
-    )
-    max_packs = count_num_packs(pack_type)
-
-    if max_owned == max_packs:
-        title = f'{pack_type} owned by people with all {pack_type} (n = {num_people})'
+    if max_owned == count_num_packs(pack_type):
+        title = f'{pack_type} owned by people with any (n = {num_people})'
     else:
-        title = f'{pack_type} owned by people with <= {max_owned} {pack_type} total (n = {num_people})'
+        title = f'{pack_type} owned by people with <= {max_owned} total (n = {num_people})'
 
-    ax.set_title(title)
-    ax.set_ylabel('Owner Count')
-    ax.set_xlim((-0.5, max_packs - 0.5))
-    ax.set_xlabel(f'Pack Name (ordered by {sorted_by})')
-
-    return fig 
+    fig = px.bar(
+        to_plot.reset_index(), 
+        x = "pack name", 
+        y = 'count',
+        color = 'pack promotion',
+        title = title,   
+        barmode='stack',
+        color_discrete_sequence = [color_map[f'{pack_type}_dark'], color_map[pack_type]],
+        custom_data = [to_plot['release date'], to_plot['total'], to_plot['percent promo']] #to use in the tooltip
+    )
+    fig.update_traces(
+        hovertemplate="<b>Pack Name:</b> %{x}<br>"  
+                      + "<b>Release Date:</b> %{customdata[0]}<br>"
+                      + "<b>Owner Count:</b> %{customdata[1]}<br>"  
+                      + "<b>Percent Promo:</b> %{customdata[2]:.1%}<br>"  
+                      + "<extra></extra>",  # Hide extra info
+    )
+    fig.update_layout(
+        xaxis_title = f'Pack Name (ordered by {sorted_by})',
+        yaxis_title = 'Owner Count',
+        xaxis = dict( tickangle = 90 ),
+        showlegend = True,
+        width = 1000,
+        height = 600
+    )
+    
+    return fig

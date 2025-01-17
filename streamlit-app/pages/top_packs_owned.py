@@ -1,8 +1,8 @@
 import streamlit as st 
 import pandas as pd
 
-from get_data import open_promo_data, plot_pack_ownership_promo, count_num_packs
-from plot_methods import plot_percent_promo
+from get_data import open_promo_data, prep_pack_ownership_promo, count_num_packs, melt_for_plotly
+from plot_methods import plot_percent_promo_matplotlib, plot_percent_promo_plotly
 
 def initialize():
     st.set_page_config(
@@ -17,13 +17,14 @@ def sidebar(df):
     # this is where I'll put all my sliders and stuff for changing the variables?
     st.sidebar.markdown("Something here...")
 
+    pack_list = sorted(list(set(df['pack_type'].to_list())))
     pack_type: str = st.sidebar.selectbox(
         "Color theme",
-        options = list(set(df['pack_type'].to_list())),
+        options = pack_list,
         key = "pack_type",
     )
 
-    max_owned = st.sidebar.slider(f'Total {pack_type} owned', 
+    max_owned = st.sidebar.slider(f'Max {pack_type} owned', 
                                   0,  # min
                                   count_num_packs(pack_type),  # max
                                   count_num_packs(pack_type)) # default
@@ -36,7 +37,7 @@ def sidebar(df):
 
     if max_owned == count_num_packs(pack_type):
         f'''
-        ## You selected survey respondents with all {pack_type}
+        ## You selected survey respondents with any {pack_type}
         '''
     else:
         f'''
@@ -49,19 +50,25 @@ def sidebar(df):
 initialize()
 data = open_promo_data()
 pack_type, max_owned, sorted_by = sidebar(data)
-to_plot, num_respondents = plot_pack_ownership_promo(data, pack_type, max_owned, sorted_by )
+to_plot, num_respondents = prep_pack_ownership_promo(data, pack_type, max_owned, sorted_by )
 
 if max_owned == count_num_packs(pack_type):
     f'''
-    Total survey respondents with all {pack_type}: {num_respondents}
+    Total survey respondents with any {pack_type}: {num_respondents}
     '''
 else:
     f'''
     Total survey respondents with at most {max_owned} {pack_type}: {num_respondents}
     '''
 
-myplot = plot_percent_promo(to_plot, pack_type, max_owned, sorted_by, num_respondents)
-st.pyplot(myplot)
+# myplot = plot_percent_promo_matplotlib(to_plot, pack_type, max_owned, sorted_by, num_respondents)
+# st.pyplot(myplot)
+
+melted_plotter = melt_for_plotly(to_plot, pack_type)
+st.dataframe(melted_plotter)
+plotlyplot = plot_percent_promo_plotly(melted_plotter, pack_type, max_owned, sorted_by, num_respondents)
+st.plotly_chart(plotlyplot)
+
 '''
 
 Raw data:
