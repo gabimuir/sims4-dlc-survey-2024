@@ -9,11 +9,12 @@ def initialize():
     )
     '''
     # Pack Clusters Based on Ownership
-    Based *only* on what packs people own, we can make clusters of packs.
+    ##### Based *only* on what packs people own, we can make clusters of packs.
+
     '''
 
     '''
-    Use the sidebar to select a different pack type
+    Use the sidebar to select a different pack type. Hover over the plots to see which packs are in which clusters.
     '''
 
 initialize()
@@ -40,10 +41,10 @@ cluster_dfs = get_cluster_dfs()
 fig = plot_cluster_plots(cluster_dfs[pack_type], pack_type)
 st.plotly_chart(fig)
 
-exp3 = st.expander('Data Tables')
+st.markdown('#### Cluster Data Tables')
 
 for cluster, cluster_df in cluster_dfs[pack_type].groupby('cluster'):
-    exp3.markdown(f'*Packs in Cluster {cluster}*')
+    st.markdown(f'*Packs in Cluster {cluster}*')
     if pack_type == 'Kits':
         to_disp = cluster_df[['pack name', 'release date', 'total owners', 'kit_type']].sort_values('release date')
     else:
@@ -51,7 +52,7 @@ for cluster, cluster_df in cluster_dfs[pack_type].groupby('cluster'):
     
     # make it all print instead of adding a scroll
     height = (to_disp.shape[0] + 1) * 36
-    exp3.dataframe(to_disp, hide_index = True, height = height)
+    st.dataframe(to_disp, hide_index = True, height = height)
 
 exp2 = st.expander('Interpretation')
 exp2.markdown(

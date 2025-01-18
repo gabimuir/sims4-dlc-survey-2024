@@ -9,14 +9,17 @@ def initialize():
     )
     '''
     # Create a Venn Diagram of Playstyles Based on Packs Owned
-    Remove or add packs in the selector. Use the filter on the left to filter the suggested packs
+    Remove or add packs in the selector. Use the dropdown on the left to add suggested packs. 
+    Use the slider to limit respondents to people with at most that many packs. 
+
+    As total pack ownership decreases, it's more obvious which "play styles" own that pack
     '''
 
 def sidebar(pack_info):
     '''
     Initialize a sidebar where the user can choose a selection of pack types to filter
     '''
-    st.sidebar.markdown("Filter the suggestions list")
+    st.sidebar.markdown("Filters")
 
     default_filter: str = st.sidebar.selectbox(
         "Show Packs By",
@@ -63,10 +66,13 @@ title = f'Owners of any of the packs selected as one of their at most {max_packs
 fig = plot_venn_gamertype(to_plot, title)
 st.pyplot(fig)
 
-'''
-### Interpretation
-There's more information available when you get down some of the people with all packs
-'''
+
+exp = st.expander('Interpretation')
+exp.markdown(
+    '''
+    There's more information available when you get down some of the people with all packs
+    '''
+)
 
 # really cool idea: do some calculation against a baseline,
 # then do a radar chart to plot. probably instead of the venn

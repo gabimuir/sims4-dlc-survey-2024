@@ -47,8 +47,8 @@ data = get_promo_data()
 pack_type, max_owned, sorted_by = sidebar(data)
 to_plot, num_respondents = prep_pack_ownership_promo(data, pack_type, max_owned, sorted_by )
 
-
-st.markdown('### Total Pack Ownership and Promos')
+# i like ### level better but to match other pages just use #
+st.markdown('# Total Pack Ownership and Promos')
 
 '''
 Use the slider on the left to see how pack popularity changes as people own more/less packs. Notice how
@@ -56,9 +56,9 @@ the percent of promo goes up as people own fewer packs
 '''
 st.markdown('')
 if max_owned == count_num_packs(pack_type):
-    st.markdown(f'##### You selected survey respondents with any {pack_type}')
+    st.markdown(f'#### You selected survey respondents with any {pack_type}')
 else:
-    st.markdown(f'##### You selected survey respondents with at most {max_owned} {pack_type}')
+    st.markdown(f'#### You selected survey respondents with at most {max_owned} {pack_type}')
 
 melted_plotter = melt_for_plotly(to_plot, pack_type)
 plotlyplot = plot_percent_promo_plotly(melted_plotter, pack_type, max_owned, sorted_by, num_respondents)
