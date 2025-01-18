@@ -5,7 +5,7 @@ from plot_methods import plot_cluster_plots
 
 def initialize():
     st.set_page_config(
-        page_title="Clustering Packs"
+        page_title="Sims4 DLC Survey"
     )
     '''
     # Pack Clusters Based on Ownership

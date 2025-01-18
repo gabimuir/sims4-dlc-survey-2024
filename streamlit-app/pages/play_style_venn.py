@@ -5,7 +5,7 @@ from plot_methods import plot_venn_gamertype
 
 def initialize():
     st.set_page_config(
-        page_title="Play styles"
+        page_title="Sims4 DLC Survey"
     )
     '''
     # Create a Venn Diagram of Playstyles Based on Packs Owned
@@ -59,7 +59,8 @@ pack_list = st.multiselect(
 )
 
 to_plot = prep_venn_playstyle(pack_list, max_packs)
-fig = plot_venn_gamertype(to_plot, 'Owners of any of the packs selected')
+title = f'Owners of any of the packs selected as one of their at most {max_packs} total packs'
+fig = plot_venn_gamertype(to_plot, title)
 st.pyplot(fig)
 
 '''

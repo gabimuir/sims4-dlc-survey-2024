@@ -1,11 +1,11 @@
 import streamlit as st 
 
-from get_data import open_promo_data, prep_pack_ownership_promo, count_num_packs, melt_for_plotly
+from get_data import get_promo_data, prep_pack_ownership_promo, count_num_packs, melt_for_plotly
 from plot_methods import plot_percent_promo_plotly
 
 def initialize():
     st.set_page_config(
-        page_title="Top Packs Owned"
+        page_title="Sims4 DLC Survey"
     )
 
 def sidebar(df):
@@ -44,7 +44,7 @@ def interpretation(pack_type):
 
 
 initialize()
-data = open_promo_data()
+data = get_promo_data()
 pack_type, max_owned, sorted_by = sidebar(data)
 to_plot, num_respondents = prep_pack_ownership_promo(data, pack_type, max_owned, sorted_by )
 

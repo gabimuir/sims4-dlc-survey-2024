@@ -52,6 +52,20 @@ def get_colors():
 
     return color_map
 
+def get_pack_response_color():
+    '''
+    Colors set for question 4: why do people not own packs
+    '''
+    pack_responses_cmap = {
+        'Own: Promo': '#B9D6F2' , 
+        'Own: Not Promo': '#0353A4',
+        "Will buy": '#E0D68A', 
+        "Might buy": '#CB9173' , 
+        "Only on Sale": '#8E443D', 
+        "Only if Free": '#511730', 
+        "Never want it": '#320A28'
+    }
+    return pack_responses_cmap
 
 def plot_percent_promo_plotly(to_plot, pack_type, max_owned, sorted_by, num_people='?'):
     '''
@@ -164,4 +178,54 @@ def plot_cluster_plots(data, pack_type):
         # Set figure size
         width=600, height=600  
     )
+    return fig
+
+
+def plot_percent_owner(data, sorted_by):
+    '''
+    Plot a barplot of what percent of people own what pack and what response they gave for not owning.
+    '''
+    fig = px.bar(
+        data.reset_index(), 
+        x = "pack name", 
+        y = 'percent',
+        color = 'pack ownership',
+        title = '',   
+        barmode='stack',
+        color_discrete_sequence =  px.colors.qualitative.Prism, # list(get_pack_response_color().values()),
+        custom_data = [data['release date'], data['total ownership'], data['count'], data['pack ownership']] #to use in the tooltip
+    )
+    fig.update_traces(
+        hovertemplate = "<b>Response:</b> %{customdata[3]}<br>"  
+                    + "<b>Percent :</b> %{y:.1%}<br>"  
+                    + "<b>Count :</b> %{customdata[2]}<br>" 
+                    + "<b>Pack Name:</b> %{x}<br>"  
+                    + "<b>Release Date:</b> %{customdata[0]}<br>"
+                    + "<b>Total Owner Count:</b> %{customdata[1]}<br>"  
+                    + "<extra></extra>",  # Hide other info
+    )
+    fig.update_layout(
+        xaxis_title = f'Pack Name (ordered by {sorted_by})',
+        yaxis_title = 'Percent of Responses',
+        xaxis = dict( tickangle = 90 ),
+        yaxis = dict( tickformat = '.0%', 
+                      dtick = 0.1, # main grid line every 10%
+                      showgrid = True,
+                    ),
+        yaxis_range=[0,1],
+        showlegend = True,
+        legend = dict( orientation = 'h',
+                        yanchor = 'bottom',
+                        xanchor = 'left',
+                        y = 1.02,
+                        x = 0,
+                        itemwidth = 30, 
+                        tracegroupgap = 10,  
+                        itemsizing = 'constant',
+                        traceorder = 'normal'
+                ),
+        width = 1000,
+        height = 600
+    )
+    
     return fig

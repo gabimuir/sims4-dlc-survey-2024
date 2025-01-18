@@ -5,7 +5,7 @@ import numpy as np
 # this code is meant to keep all of the data logic. The pages should hold mostly formatting and UI
 
 @st.cache_data
-def open_promo_data():
+def get_promo_data():
     return pd.read_csv('../tables/all_promo_data.csv') 
 
 @st.cache_data
@@ -28,6 +28,10 @@ def get_play_style_df():
     return pd.read_csv('../tables/play_styles_raw.csv').set_index('survey_id')
 
 @st.cache_data
+def get_purchase_data():
+    return pd.read_csv('../tables/bought_and_not_all.csv')
+
+@st.cache_data
 def get_cluster_dfs():
     '''
     Open the clustering results for each pack type
@@ -43,7 +47,7 @@ def get_cluster_dfs():
         df['cluster'] = df['cluster'].astype("category")
 
         # add a totals column for how many owners have each pack
-        totals, total_respondents = prep_pack_ownership_promo( open_promo_data(), pack_type = pt, max_owned=81)
+        totals, total_respondents = prep_pack_ownership_promo( get_promo_data(), pack_type = pt, max_owned=81)
         with_totals = pd.merge(
             left = df,
             right = totals[['total']].rename(columns = {'total': 'total owners'}),
@@ -132,6 +136,59 @@ def melt_for_plotly(to_plot, pack_type):
     return df
 
 @st.cache_data
+def get_non_ownership_reason_data(pack_type='All', sorted_by='total'):
+    '''
+    Melt the df down into something for plotly to plot.
+    '''
+    df = get_purchase_data()
+    if pack_type != 'All':
+        # filter based on pack_type
+        df = df[df['pack_type'] == pack_type]
+    
+    # sort here before melting by the user's choice
+    owned = ['Own: Not Promo', 'Own: Promo']
+    not_owned = ['Will buy', 'Might buy', 'Only on Sale', 'Only if Free', 'Never want it']
+    responses = owned + not_owned
+
+    # add total owners
+    df['total ownership'] = df[owned].sum(axis = 1)
+    df['not owned'] = df[not_owned].sum(axis = 1)
+
+    # they have the same total respondents so just grab the first
+    total_repondents = df[responses].sum(axis = 1).iloc[0]        
+    df = df.sort_values(sorted_by)
+
+    melted = pd.melt(
+        df, 
+        value_vars = responses,
+        id_vars = ['release date', 'total ownership', 'pack name', 'pack_type'],
+        var_name = 'pack ownership', value_name = 'count'
+    )
+    melted['percent'] = melted['count'] / total_repondents
+    return melted
+
+@st.cache_data
+def filter_ownership_graph(data, filter):
+    '''
+    A user can select if they want to filter the graph to one type of result (similar to sorted_by)
+    '''
+    owned = ['Own: Not Promo', 'Own: Promo']
+    not_owned = ['Will buy', 'Might buy', 'Only on Sale', 'Only if Free', 'Never want it']
+    responses = owned + not_owned
+
+    if filter in responses:
+        filtered = data[data['pack ownership'] == filter]
+    elif filter == 'Only Owners':
+        filtered = data[data['pack ownership'].isin(owned)]
+    elif filter == 'Only Non-Owners':
+        filtered = data[data['pack ownership'].isin(not_owned)]
+    else:
+        # they selected "All" or I haven't written it in yet lol
+        filtered = data 
+    return filtered
+
+
+@st.cache_data
 def prep_venn_playstyle(pack_list, max_packs):
     '''
     Filter the play style to specific survey respondents based on filters. If 
@@ -140,7 +197,7 @@ def prep_venn_playstyle(pack_list, max_packs):
         return pd.DataFrame(columns = ['player_cas', 'player_live', 'player_build'])
     
     # from promo_data we see each survey_id and which packs they own
-    df = open_promo_data() 
+    df = get_promo_data() 
     # first filter to respondents with less than the max num packs
     num_packs = df.groupby(['survey_id', 'pack_type'])['pack name'].count().reset_index()
 
