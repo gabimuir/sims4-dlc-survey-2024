@@ -8,7 +8,7 @@ import streamlit as st
 sns.set_style('white')
 
 st.set_page_config(
-    page_title="Sims4 2024 DLC Analysis"
+    page_title="Sims4 DLC Survey"
 )
 
 def header():
@@ -28,11 +28,11 @@ def data_source():
                     type = 'primary'
                    )
     '''
-    Sims Youtuber JamesTurnerYT (formerly known as the SimsSupply) created a 
-    survey on his website and asked his subscribers to respond. 
+    Sims Youtuber JamesTurnerYT (formerly known as the SimSupply) created a survey on his website and asked his subscribers 
+    to respond. 
     
     The survey asks to self-describe a "play style", then give a rating 
-    for each pack they own. If they did not own a pack, they were asked to rank their likelihood of ever getting it. 
+    for each DLC pack they own. If they did not own a pack, they were asked to rank their likelihood of ever getting it. 
     '''
     st.link_button("James' video on pack scores",
                    url = 'https://youtu.be/i90rK_zEpL0?si=KOTUqhz_-sp6aKA5',

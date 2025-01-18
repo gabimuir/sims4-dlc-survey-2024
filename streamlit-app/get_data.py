@@ -4,17 +4,19 @@ import numpy as np
 
 # this code is meant to keep all of the data logic. The pages should hold mostly formatting and UI
 
+github_path = 'https://raw.githubusercontent.com/gabimuir/sims4-dlc-survey-2024/refs/heads/main/tables/'
+
 @st.cache_data
 def get_promo_data():
-    return pd.read_csv('../tables/all_promo_data.csv') 
+    return pd.read_csv(github_path + 'all_promo_data.csv') 
 
 @st.cache_data
 def get_pack_info():
     '''
     Read the pack info (pack name, pack type) and add the additional info of the kit type (CAS/creator/etc)
     '''
-    df = pd.read_csv('../tables/basic_pack_info.csv')
-    kit_types = pd.read_csv('../kit_types.csv')
+    df = pd.read_csv(github_path + 'basic_pack_info.csv')
+    kit_types = pd.read_csv(github_path + '../kit_types.csv')
     pack_info = pd.merge(left = df,
          right = kit_types,
          right_on = 'kit_name',
@@ -25,11 +27,11 @@ def get_pack_info():
 
 @st.cache_data
 def get_play_style_df():
-    return pd.read_csv('../tables/play_styles_raw.csv').set_index('survey_id')
+    return pd.read_csv(github_path + 'play_styles_raw.csv').set_index('survey_id')
 
 @st.cache_data
 def get_purchase_data():
-    return pd.read_csv('../tables/bought_and_not_all.csv')
+    return pd.read_csv(github_path + 'bought_and_not_all.csv')
 
 @st.cache_data
 def get_cluster_dfs():
@@ -37,10 +39,10 @@ def get_cluster_dfs():
     Open the clustering results for each pack type
     '''
     cluster_data = {
-        'Kits': pd.read_csv('../tables/kit_pca_clusters.csv'),
-        'Expansion Packs': pd.read_csv('../tables/clusters_expansions_3c.csv'),
-        'Game Packs': pd.read_csv('../tables/cluster_game_packs.csv'),
-        'Stuff Packs': pd.read_csv('../tables/cluster_stuff_packs.csv')
+        'Kits': pd.read_csv(github_path + 'kit_pca_clusters.csv'),
+        'Expansion Packs': pd.read_csv(github_path + 'clusters_expansions_3c.csv'),
+        'Game Packs': pd.read_csv(github_path + 'cluster_game_packs.csv'),
+        'Stuff Packs': pd.read_csv(github_path + 'cluster_stuff_packs.csv')
     }
     # set all the clusters as categorical variables
     for pt, df in cluster_data.items():

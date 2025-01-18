@@ -61,7 +61,7 @@ data = get_non_ownership_reason_data(pack_type, sorted_by )
 filtered = filter_ownership_graph(data, filter_by)
 
 '''
-Use the options on the left to select certain packs and sort by variables
+Use the options on the left to select certain packs and sort by response
 '''
 fig = plot_percent_owner(filtered, sorted_by)
 st.plotly_chart(fig)
