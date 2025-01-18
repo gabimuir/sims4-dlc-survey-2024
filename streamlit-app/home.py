@@ -28,7 +28,7 @@ def data_source():
                     type = 'primary'
                    )
     '''
-    Sims Youtuber JamesTurner.yt (formerly known as the SimsSupply) created a 
+    Sims Youtuber JamesTurnerYT (formerly known as the SimsSupply) created a 
     survey on his website and asked his subscribers to respond. 
     
     The survey asks to self-describe a "play style", then give a rating 
