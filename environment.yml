@@ -11,8 +11,6 @@ dependencies:
   - matplotlib-base=3.7.0
   - matplotlib-inline=0.1.6
   - matplotlib-venn=1.1.1
-  - numpy=1.26.4
-  - numpy-base=1.26.4
   - openpyxl=3.1.5
   - pandas=2.2.3
   - pillow=11.0.0
@@ -28,3 +26,4 @@ dependencies:
       - pyarrow==18.1.0
       - streamlit==1.41.1
       - watchdog==6.0.0
+      - numpy 
