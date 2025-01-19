@@ -121,6 +121,38 @@ def plot_venn_gamertype(for_set, title = ''):
         plt.title(title)
     return fig
 
+def plot_radar(diffdf, title = ''):
+    '''
+    Make a radar plot showing the difference in play styles between this pack and the baseline
+    '''
+    fig = px.line_polar(
+        diffdf, 
+        r='percent diff', 
+        theta='play style', 
+        line_close=True,
+        title = title,
+        template="plotly_dark"
+    )
+    fig.update_traces(
+        fill='toself',
+        hoveron = 'points+fills',
+        hoverinfo='theta+r',
+        hovertemplate = "<b>Play Style:</b> %{theta}<br>"
+                + "<b>Percent Diff from Baseline:</b> %{r:.2}%<br>"
+                + "<extra></extra>",  # Hide extra info,
+    )
+    fig.update_layout(
+        polar=dict(
+        radialaxis = dict(
+            visible = True,
+            range = [-6, 6]
+        )),
+        showlegend = True,
+        hovermode = 'closest',
+        width=800, height=600  
+    )
+    return fig
+
 def plot_cluster_plots(data, pack_type):
     '''
     Plot a scatterplot of the PCA results of each pack. Use the cluster for the color

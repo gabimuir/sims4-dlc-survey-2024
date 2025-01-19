@@ -68,6 +68,15 @@ def count_num_packs(pack_type):
     return len(df[df['pack_type'] == pack_type]['pack name'].to_list())
 
 @st.cache_data
+def get_radar_baseline():
+    '''
+    Create the counts for the baseline dist of play styles
+    '''
+    all_response = get_play_style_df()
+    df = get_playstyle_counts(all_response)
+    return df
+
+@st.cache_data
 def prep_pack_ownership_promo(df, pack_type = 'Kits', max_owned = 3, sorted_by = 'total'):
     '''
     Takes one pack type, and a designed max num owned and preps the data to plot the packs from 
@@ -189,9 +198,8 @@ def filter_ownership_graph(data, filter):
         filtered = data 
     return filtered
 
-
 @st.cache_data
-def prep_venn_playstyle(pack_list, max_packs):
+def prep_playstyle_df(pack_list, max_packs):
     '''
     Filter the play style to specific survey respondents based on filters. If 
     '''
@@ -200,22 +208,58 @@ def prep_venn_playstyle(pack_list, max_packs):
     
     # from promo_data we see each survey_id and which packs they own
     df = get_promo_data() 
-    # first filter to respondents with less than the max num packs
-    num_packs = df.groupby(['survey_id', 'pack_type'])['pack name'].count().reset_index()
 
-    # isolate which survey respondents had that many responses
-    lt_x_packs = num_packs[ (num_packs['pack name'] <= max_packs) ] ['survey_id'].to_list()
+    # first filter to respondents with less than the max num packs, then filter to respondents with that many
+    num_packs = df.groupby(['survey_id'])['pack name'].count().reset_index().rename(columns = {'pack name': 'pack count'})
+    lt_x_packs = num_packs[ (num_packs['pack count'] <= max_packs) ] ['survey_id'].to_list()
 
     # filter by pack owner and total pack ownership
     owner_list = df[(df['pack name'].isin(pack_list)) & (df['survey_id'].isin(lt_x_packs))
                      ]['survey_id'].drop_duplicates().to_list()
     play_style_df = get_play_style_df().loc[owner_list]
+    return play_style_df
 
+@st.cache_data
+def prep_venn_playstyle(play_style_df):
+    '''
+    Get the play style df for this set of packs, then format for the venn diagram (with unique entries)
+    '''
     # replace true/false with the index to become a unique value for the venn diagram set
     for_set = play_style_df.T.apply(
         lambda x: np.where(x, str(x.name), np.nan)
         ).T.reset_index().set_index('survey_id')
-    
     return for_set
 
-    
+@st.cache_data
+def get_playstyle_counts(df):
+    '''
+    Use value_counts to get the count of each playstyle combination, 
+    then rename to prettify and put in order
+    '''
+    totals = pd.DataFrame(df.value_counts())
+    new_index = totals.reset_index()[['player_cas', 'player_build', 'player_live']].apply(
+            lambda x: np.where(x, str(x.name).split('_')[1], np.nan)
+            ).apply(lambda x: ','.join(x).replace('nan,','').replace(',nan',''), axis = 1)
+    cat_order = ['cas,build,live', 'build,live', 'live', 'cas,live', 'cas', 'cas,build', 'build']
+    cat_type = pd.CategoricalDtype(categories=cat_order, ordered=True)
+    totals.index = new_index.astype(cat_type)
+    totals['percent'] = totals['count'] / df.shape[0]
+    return totals
+
+@st.cache_data
+def get_radar_diffs(play_style_df):
+    '''
+    Calculate the difference in play styles between this set of packs and baseline (all respondents)
+    '''
+    totals = get_radar_baseline()
+    counts = get_playstyle_counts(play_style_df)
+    diffdf = pd.merge(
+        left = counts,
+        right = totals.rename(columns = {'percent': 'baseline %', 'count': 'baseline total'}),
+        right_index = True,
+        left_index = True
+    )
+    diffdf['percent diff'] = (diffdf['percent'] - diffdf['baseline %']) * 100
+    diffdf.index = diffdf.index.rename('play style')
+    diffdf = diffdf.reset_index().sort_values('play style')
+    return diffdf
