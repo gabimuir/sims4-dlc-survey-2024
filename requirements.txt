@@ -1,8 +1,0 @@
-streamlit
-watchdog 
-pandas 
-numpy 
-matplotlib==3.7
-matplotlib-venn
-openpyxl
-plotly
