@@ -2,6 +2,7 @@ streamlit
 watchdog 
 pandas 
 numpy 
-conda-forge::matplotlib-venn
+matplotlib==3.7
+matplotlib-venn
 openpyxl
-plotly::plotly
+plotly

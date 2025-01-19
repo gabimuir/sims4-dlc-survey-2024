@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import plotly.express as px
-import seaborn as sns
 from get_data import count_num_packs
 from matplotlib_venn import venn3
 
@@ -8,7 +7,6 @@ def get_colors():
     '''
     Returns the custom colormap, but also sets the defaults
     '''
-    sns.set_style('white')
 
     color_map_raw = {
         'Expansion Packs': (13,191,191), # teal
