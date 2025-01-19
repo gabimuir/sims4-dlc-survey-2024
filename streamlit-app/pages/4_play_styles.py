@@ -49,7 +49,7 @@ def sidebar(pack_info):
     num_packs = st.sidebar.slider(f'Max Total Packs Owned', 
                                   1,  # min
                                   len(pack_info['pack name'].to_list()),  # max
-                                  10
+                                  18
      ) # default
 
     return default, num_packs
