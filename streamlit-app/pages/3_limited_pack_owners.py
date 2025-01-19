@@ -39,7 +39,21 @@ def interpretation(pack_type):
     Text for some key interpretations of each pack type
     '''
     exp2 = st.expander('Interpretation')
-    exp2.markdown('')
+    exp2.markdown(
+        '''
+        The aim of this page is to show more information on the promotions. Main question:
+            
+        **If people own only 3 Kits, did they just get the free ones?**
+
+        Set pack type to "Kits" and max kits owned to the max of 33. If they own any number of kits, the
+        three most popular are Blooming Rooms (32% promo), Desert Luxe (63% promo), and Book Nook (1.7% promo).
+
+        Set max kits owned to 3, and now the top three are Blooming Room (now 74% promo), Desert Luxe (now 88% promo),
+        and Fashion Street Set (94% promo). From all respondents Fashion Street Set is like 15th most popular, but from people
+        who don't own many Kits its popularity is driven by the fact it was given away as part of a promotion.
+
+        So, total pack ownership definitely impacts which packs are most popular
+        ''')
 
 
 initialize()
