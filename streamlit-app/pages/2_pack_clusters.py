@@ -74,9 +74,18 @@ exp2.markdown(
 expander = st.expander('Methodology')
 expander.markdown(
     '''
-    Principal Component Analysis was done to plot the owners into dimensional space, then K-Means clustering was done 
-    Clusters were chosen based on manual review of performance of clustering at 2, 3, or 4 clusters.
+    The input data is a dataframe of survey respondents (rows) by packs owned (columns), where pack ownership was listed
+    as True or False for each respondent.
 
-    I separated the clustering by pack type because the first PC was mostly pack type
+    The x and y positions graphed are the PC1 and PC2 of a Principle Component analysis on the input data, where
+    features were packs owned. PCA converts multiple features (packs owned) into a smaller dimensional space.
+    
+    PCA was first done on the packs as whole, but the first PC was clearly "pack type" (expansion vs kit, etc), so 
+    PCA was done on each set of pack types separately.
+
+    Using the PCA results, K-Means clustering was done on each set of pack types.
+    Cluster size was chosen based on manual review of performance of clustering at 2, 3, or 4 clusters for each pack type.
+
+    See jupyter notebook in github for more details
     '''
 )
