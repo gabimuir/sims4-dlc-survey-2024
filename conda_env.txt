@@ -1,3 +1,3 @@
-conda create -n data-review jupyter seaborn matplotlib==3.7 scikit-learn pandas numpy conda-forge::matplotlib-venn beautifulsoup4 statsmodels prince kmodes openpyxl conda-forge::altair plotly::plotly
+conda create -n data-review jupyter seaborn matplotlib==3.7 scikit-learn pandas numpy conda-forge::matplotlib-venn beautifulsoup4 statsmodels prince kmodes openpyxl conda-forge::altair plotly::plotly conda-forge::jupyterlab-plotly-extension
 pip install streamlit
 pip install watchdog # increases performance on mac 
