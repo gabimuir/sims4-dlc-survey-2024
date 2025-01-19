@@ -8,7 +8,8 @@ def initialize():
         page_title="Sims4 DLC Survey"
     )
     '''
-    # Will People Get Packs They Don't Own?
+    # Pack Ownership
+    ### What packs do people own? Will People Get Packs They Don't Own?
 
     Look into ownership data and responses for likelihood of getting it
     '''
@@ -42,18 +43,43 @@ def sidebar():
         options = ['Show All', 'Only Owners', 'Only Non-Owners'] + responses,
         key = "filter",
         index = 0,
-        placeholder = 'Choose the sorting direction'
+        placeholder = 'Limit bars shown'
     )
 
     return pack_type, sorted_by, filter_by
 
-def interpretation(pack_type):
+def interpretation():
     '''
-    Text for some key interpretations of each pack type
+    Write in some interpretations with examples of what to look for
     '''
+    exp = st.expander('Interpretation')
+    exp.markdown(
     '''
-    ### Interpretation:
+    ### Waiting for Sales
+    Sorting by "release date", showing only "Only on Sale" shows which packs people don't have but want if it were on sale.
+    There's a trend where more recent release dates have a higher percent of people wanting it on sale. 
+
+    ### Favorite Kit: Blooming Rooms
+    **Sort by Kits only + Order by "Own: Not Promo" + Show Only "Only Owners"**
+
+    Sorting by kits based on ownership ("total onwership") shows that Blooming Rooms is the most popular kit. 
+    A large proportion of people (24% of respondents) got Blooming Rooms via promo ("own: promo").
+    
+    Interesting, even with that massive giveaway, Blooming Rooms is the #1 kit based only on
+    purchases ("own: not promo") (51% of respondents).
+    
+    ### Most Hated Pack: Batuu
+    **Sort by "Never want it", show only "Only non-owners"**
+
+    Certain packs are very polarizing, where people don't even want it in their game even if it were free. 
+    "Star Wars: Journey to Batuu" is basically a meme in the sims community because people hate it so much. 
+    It checks out that it has the highest percent of people saying they never want it.
+
+    Sorting by "never want it" also correlates with a decrease in people responding more positively with answers like
+    "only on sale", "might buy" or "will buy"
+    
     '''
+    )
 
 initialize()
 pack_type, sorted_by, filter_by = sidebar()
@@ -61,15 +87,15 @@ data = get_non_ownership_reason_data(pack_type, sorted_by )
 filtered = filter_ownership_graph(data, filter_by)
 
 '''
-Use the options on the left to select certain packs and sort by response
+Use the options on the left to select certain packs and sort by response. Choose certain responses to "show only" to minimize visual
+clutter.
+
+Hover over the plot to see more details
 '''
 fig = plot_percent_owner(filtered, sorted_by)
 st.plotly_chart(fig)
 
-'''
-Interpretation
-
-'''
+interpretation()
 
 exp = st.expander('Raw Data')
 exp.dataframe(get_purchase_data())
