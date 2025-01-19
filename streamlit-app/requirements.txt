@@ -1,0 +1,7 @@
+streamlit
+watchdog 
+pandas 
+numpy 
+conda-forge::matplotlib-venn
+openpyxl
+plotly::plotly
