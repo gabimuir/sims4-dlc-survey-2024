@@ -13,9 +13,6 @@ st.set_page_config(
 
 def header():
     st.header("2024 Sims 4 DLC Survey Analysis")
-    '''
-    by [my github link]
-    '''
 
 def data_source():
     '''
