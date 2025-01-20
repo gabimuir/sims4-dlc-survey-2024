@@ -65,6 +65,44 @@ def get_pack_response_color():
     }
     return pack_responses_cmap
 
+def plot_ownership_hist(to_plot, pack_type, max_packs):
+    '''
+    Plot a histogram of number of packs owned
+    '''
+    color_map = get_colors()
+    if pack_type == 'All':
+        title = 'Total Packs Owned per Respondent'
+        color = [color_map['cas']] # green
+    else:
+        title = f'Total {pack_type} Owned per Respondent'
+        color = [color_map[pack_type]]
+
+    fig = px.bar(
+        to_plot, 
+        x = "Num Packs Owned", 
+        y = 'count',
+        title = title,   
+        color_discrete_sequence = color,
+        custom_data = [to_plot['Num Packs Owned'], to_plot['percent']] #to use in the tooltip
+    )
+    fig.update_traces(
+        hovertemplate="<b>Number of Packs:</b> %{customdata[0]}<br>"
+                      + "<b>Count:</b> %{y}<br>"  
+                      + "<b>Percent of Respondents:</b> %{customdata[1]:.1%}<br>"  
+                      + "<extra></extra>",  # Hide extra info
+    )
+    fig.update_layout(
+        xaxis_title = f'Total Packs Owned',
+        yaxis_title = 'Respondent Count',
+        xaxis = dict( tickangle = 90 ),
+        xaxis_range=[-0.5, max_packs + 0.5],
+        showlegend = True,
+        width = 1000,
+        height = 600
+    )
+    
+    return fig
+
 def plot_percent_promo_plotly(to_plot, pack_type, max_owned, sorted_by, num_people='?'):
     '''
     Plot a histplot type figure for the top packs owned by a certain number,

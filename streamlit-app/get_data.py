@@ -34,6 +34,17 @@ def get_purchase_data():
     return pd.read_csv(github_path + 'bought_and_not_all.csv')
 
 @st.cache_data
+def get_hist_all_data():
+    return pd.read_csv(github_path + 'num_packs_owned_all.csv')
+
+@st.cache_data
+def get_packtype_hist_data():
+    '''
+    read the histogram data per pack type. Use T because survey_id was saved as the column instead of the row
+    '''
+    return pd.read_csv(github_path + 'per_player_per_type_count.csv').set_index('pack_type').T
+
+@st.cache_data
 def get_cluster_dfs():
     '''
     Open the clustering results for each pack type
@@ -66,6 +77,18 @@ def count_num_packs(pack_type):
     '''
     df = get_pack_info()
     return len(df[df['pack_type'] == pack_type]['pack name'].to_list())
+
+@st.cache_data
+def prep_hist(df):
+    '''
+    Prep the data into a histogram format. df is two columns, survey_id and Num Packs Owned
+    '''
+    max_packs = df['Num Packs Owned'].max()
+    total_resp = df.shape[0]
+    hist_df = pd.DataFrame(df.set_index('survey_id').groupby('Num Packs Owned').value_counts())
+    hist_df['percent'] = hist_df['count'] / total_resp 
+    hist_df = hist_df.reset_index()
+    return hist_df, max_packs
 
 @st.cache_data
 def get_radar_baseline():
