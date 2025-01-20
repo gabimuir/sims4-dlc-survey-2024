@@ -26,4 +26,4 @@ dependencies:
       - pyarrow==18.1.0
       - streamlit==1.41.1
       - watchdog==6.0.0
-      - numpy 
+      - numpy==1.26.4 
