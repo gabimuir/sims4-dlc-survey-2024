@@ -11,7 +11,9 @@ def initialize():
     # Pack Ownership
     ### How many packs do people own?
 
-    Histogram of ownership. Use the dropdown in the side bar to show based on pack type
+    Histogram of ownership. Use the dropdown in the side bar to show based on pack type.
+
+    Page [limited pack owners](https://sims4-dlc-survey-2024-analysis.streamlit.app/limited_pack_owners) goes into detail on what packs people own, if they only own a few
     '''
 
 def sidebar():
@@ -33,7 +35,6 @@ pack_type = sidebar()
 
 if pack_type == 'All':
     data = get_hist_all_data()
-    st.dataframe(data.sort_values('Num Packs Owned'))
 else:
     data = get_packtype_hist_data()[[pack_type]].reset_index()
     data.columns = ['survey_id', 'Num Packs Owned']
