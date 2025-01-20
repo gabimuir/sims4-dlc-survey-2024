@@ -18,7 +18,7 @@ def data_source():
     '''
     wait will it publish this too or does it know this is how ppl usually code their comments?
     '''
-    st.header("Data Background")
+    st.markdown("### Data Background")
     st.link_button("Link to James' Website and 2024 Survey Results", 
                     url = 'https://jamesturner.yt/sims-pack-ratings/2024',
                     icon = '📊',
@@ -43,7 +43,7 @@ def data_source():
    
 
 def explain_sims():
-    st.markdown('#### Background on the Sims')
+    st.markdown('### Background on the Sims 4')
     exp = st.expander('## What is a DLC?')
     exp.markdown(
         '''
