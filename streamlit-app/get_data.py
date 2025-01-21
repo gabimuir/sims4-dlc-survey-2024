@@ -105,21 +105,29 @@ def prep_pack_ownership_promo(df, pack_type = 'Kits', max_owned = 3, sorted_by =
     Takes one pack type, and a designed max num owned and preps the data to plot the packs from 
     most owned to least (sorted_by total) or by pack release date ()
     '''
-    # prep data
-    num_packs = df.groupby(['survey_id', 'pack_type'])['pack name'].count().reset_index()
-    
     # isolate which survey respondents had that many responses
-    lt_3_kits_list = num_packs[ 
+    if pack_type == 'All':
+        num_packs = df.groupby('survey_id')['pack name'].count().reset_index()
+        # the column "pack name" becomes total packs
+        lt_3_kits_list = num_packs[ (num_packs['pack name'] <= max_owned) ] ['survey_id'].to_list()
+    else:
+        num_packs = df.groupby(['survey_id', 'pack_type'])['pack name'].count().reset_index()
+        # the column "pack name" becomes total packs
+        lt_3_kits_list = num_packs[ 
                             (num_packs['pack_type'] == pack_type) & 
                             (num_packs['pack name'] <= max_owned) 
                             ] ['survey_id'].to_list()
     
     num_people = len(lt_3_kits_list)
+    print(num_people)
 
-    lt_3_data = df[
-                    (df['survey_id'].isin(lt_3_kits_list)) &
-                    (df['pack_type'] == pack_type)
-                ]
+    if pack_type == 'All':
+        lt_3_data = df[(df['survey_id'].isin(lt_3_kits_list))]
+    else:
+        lt_3_data = df[
+                        (df['survey_id'].isin(lt_3_kits_list)) &
+                        (df['pack_type'] == pack_type)
+                    ]
     
     # count those packs
     promo = lt_3_data.groupby('pack name')[['promo']].sum().sort_values('promo')
@@ -141,12 +149,8 @@ def prep_pack_ownership_promo(df, pack_type = 'Kits', max_owned = 3, sorted_by =
         how = 'right'
     )
 
+    # prep to plot by adding percent and sorting by the selected
     per_pack_promo_kits['percent promo'] = per_pack_promo_kits['promo'] / per_pack_promo_kits['total'] 
-
-    # prep for PLOT
-    to_plot = per_pack_promo_kits.sort_values(sorted_by, ascending = False
-                                ).drop(['total', 'release date'], axis = 1
-                                      ).set_index('pack name')
     to_plot = per_pack_promo_kits.sort_values(sorted_by, ascending = False).set_index('pack name')
     return to_plot, num_people
 

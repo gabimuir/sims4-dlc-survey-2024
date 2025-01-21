@@ -15,22 +15,35 @@ def sidebar(df):
     st.sidebar.markdown("Choose your filters")
 
     pack_list = sorted(list(set(df['pack_type'].to_list())))
-    pack_type: str = st.sidebar.selectbox(
-        "Pack Type",
-        options = pack_list,
-        key = "pack_type",
+    pack_type = st.sidebar.selectbox( 
+        "Show Packs By",
+        options = ['All', 'Expansion Packs', 'Game Packs', 'Stuff Packs', 'Kits'],
+        key = "default_filter",
+        index = 0,
+        placeholder = 'Filter by pack type'
     )
 
+    if pack_type in pack_list:
+        max_packs = count_num_packs(pack_type)
+    else:
+        max_packs = 81 # sorry hardcoding
+    
     max_owned = st.sidebar.slider(f'Max {pack_type} owned', 
                                   0,  # min
-                                  count_num_packs(pack_type),  # max
-                                  count_num_packs(pack_type)) # default
+                                  max_packs,  # max
+                                  max_packs # default
+                                  )
     
     sorted_by = st.sidebar.radio(
         "Sorted by",
-        options = ['total', 'release date'],
+        options = ['total owners', 'release date', 'purchased (not promo)'],
         key = "sorted_by",
     )
+    # clarify the text on the page, but use the real underlying sort order
+    if sorted_by == 'purchased (not promo)':
+        sorted_by = 'not promo'
+    elif sorted_by == 'total owners':
+        sorted_by = 'total'
 
     return pack_type, max_owned, sorted_by
 

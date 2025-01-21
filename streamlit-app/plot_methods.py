@@ -24,7 +24,9 @@ def get_colors():
         'build': (202,113,43), # orange
         'live': (33,135,207), # blue
         'gray': (37,38,38),
-        'bugs': (119, 48, 166) # bugs purple
+        'bugs': (119, 48, 166), # bugs purple,
+        'All': (159, 232, 56), # light green
+        'All_dark': (82, 166, 22) # darker green
     }
 
     # this is how seaborn/matplotlib likes it
@@ -69,20 +71,17 @@ def plot_ownership_hist(to_plot, pack_type, max_packs):
     '''
     Plot a histogram of number of packs owned
     '''
-    color_map = get_colors()
     if pack_type == 'All':
         title = 'Total Packs Owned per Respondent'
-        color = [color_map['cas']] # green
     else:
         title = f'Total {pack_type} Owned per Respondent'
-        color = [color_map[pack_type]]
 
     fig = px.bar(
         to_plot, 
         x = "Num Packs Owned", 
         y = 'count',
         title = title,   
-        color_discrete_sequence = color,
+        color_discrete_sequence = [get_colors()[pack_type]],
         custom_data = [to_plot['Num Packs Owned'], to_plot['percent']] #to use in the tooltip
     )
     fig.update_traces(
