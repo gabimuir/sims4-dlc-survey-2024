@@ -138,6 +138,21 @@ def plot_percent_promo_plotly(to_plot, pack_type, max_owned, sorted_by, num_peop
         width = 1000,
         height = 600
     )
+
+    # move the legend to leave space when all pack types are selected
+    if pack_type == 'All':
+        fig.update_layout(
+            legend = dict(
+                        yanchor = 'bottom',
+                        xanchor = 'left',
+                        y = 0.8,
+                        x = 0.8,
+                        itemwidth = 30, 
+                        tracegroupgap = 10,  
+                        itemsizing = 'constant',
+                        traceorder = 'normal'
+                )
+        )
     
     return fig
 

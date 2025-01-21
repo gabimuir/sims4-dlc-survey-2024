@@ -119,8 +119,7 @@ def prep_pack_ownership_promo(df, pack_type = 'Kits', max_owned = 3, sorted_by =
                             ] ['survey_id'].to_list()
     
     num_people = len(lt_3_kits_list)
-    print(num_people)
-
+    
     if pack_type == 'All':
         lt_3_data = df[(df['survey_id'].isin(lt_3_kits_list))]
     else:

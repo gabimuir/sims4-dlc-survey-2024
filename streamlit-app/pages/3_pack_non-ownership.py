@@ -8,8 +8,8 @@ def initialize():
         page_title="Sims4 DLC Survey"
     )
     '''
-    # Pack Ownership
-    ### What packs do people own? Will People Get Packs They Don't Own?
+    # Pack Non-Ownership
+    ### Do People Want Packs They Don't Own?
 
     Look into ownership data and responses for likelihood of getting it
     '''
@@ -42,7 +42,7 @@ def sidebar():
         "Show only",
         options = ['Show All', 'Only Owners', 'Only Non-Owners'] + responses,
         key = "filter",
-        index = 0,
+        index = 2,
         placeholder = 'Limit bars shown'
     )
 
