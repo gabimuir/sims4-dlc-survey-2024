@@ -57,9 +57,6 @@ exp2.markdown(
     ##### Kits
     The Kits distribution looks different than the other distributions in that more people have either a handful (0-5) or all 33.
     The spike up at 33 could be from the bias of selecting all.
-
-    Page [limited pack owners](https://sims4-dlc-survey-2024-analysis.streamlit.app/limited_pack_owners) goes into detail on what packs
-    people *do* own, if they only own a few
     '''
 )
 

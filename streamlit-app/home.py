@@ -30,16 +30,28 @@ def data_source():
     
     The survey asks to self-describe a "play style", then give a rating 
     for each DLC pack they own. If they did not own a pack, they were asked to rank their likelihood of ever getting it. 
+
+    About **15,000** people responded to the survey!
     '''
     st.link_button("James' video on pack scores",
                    url = 'https://youtu.be/i90rK_zEpL0?si=KOTUqhz_-sp6aKA5',
                    icon = '🎥'
                    )
-    '''
-    I focused my analysis on the survey respondent data. 
-    Which packs do people own? Do they want packs they don't own? Does playstyle correlate
-    to pack ownership?  
-    '''
+    
+    # blank line for spacing
+    st.markdown('&nbsp;')
+    st.markdown('I focused my analysis on the survey respondent data.')
+
+    st.page_link('pages/1_count_packs_owned.py', icon = '➖', label = 'How many packs do people own?')
+    st.page_link('pages/2_limited_pack_owners.py', icon = '➖', label = 'Which packs do people own? Especially when they only buy a few')
+    st.page_link('pages/3_pack_non-ownership.py', icon = '➖', label = "Do they want packs they don't own?")
+    st.page_link('pages/4_play_styles.py', icon = '➖', label = 'Do certain packs appeal more to certain "play styles"?')
+    st.page_link('pages/5_pack_clusters.py', icon = '➖', label = 'Can we see pack similarity clusters based on who owns which?')
+
+    # extra empty space
+    st.markdown('&nbsp;') 
+
+
    
 
 def explain_sims():
